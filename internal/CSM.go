@@ -1,6 +1,6 @@
 package internal
 
-import "github.com/sushant102004/Zorvex/internal/types"
+import "github.com/sushant102004/zorvex/internal/types"
 
 type CSM interface {
 	// This method will provide functionality for accepting new service registration request.
