@@ -11,10 +11,8 @@ type Balancer interface {
 
 type LoadBalancer struct{ Balancer }
 
-func NewLoadBalancer(balancer Balancer) *LoadBalancer {
-	return &LoadBalancer{
-		Balancer: balancer,
-	}
+func NewLoadBalancer() *LoadBalancer {
+	return &LoadBalancer{}
 }
 
 func (lb *LoadBalancer) RoundRobin() error {
