@@ -17,14 +17,14 @@ type Service struct {
 	LoadBalancingMethod string       `json:"load_balancing_method" rethinkdb:"load_balancing_method"` // RoundRobin, LeastConnections, Resource, FixedWeighting
 	TotalConnections    int          `json:"total_connections" rethinkdb:"total_connections"`
 	DeRegisterAfter     int          `json:"de_register_after" rethinkdb:"de_register_after"`
-	Status              string       `json:"health_status" rethinkdb:"health_status"` // active, unknown, down
+	Status              string       `json:"status" rethinkdb:"status"` // active, unknown, down
 	HealthConfig        HealthConfig `json:"health_config"`
 }
 
 type HealthConfig struct {
-	HealthCheckEndpoint string              `json:"health_url"` // <ip_address>:<port>/health
-	Interval            int                 `json:"interval"`
-	Options             HealthConfigOptions `json:"options"`
+	HealthCheckEndpoint string              `json:"health_check_endpoint" rethinkdb:"health_check_endpoint"` // <ip_address>:<port>/health
+	Interval            int                 `json:"interval" rethinkdb:"interval"`
+	Options             HealthConfigOptions `json:"options" rethinkdb:"options"`
 }
 
 type HTTPHeader struct {
@@ -32,8 +32,7 @@ type HTTPHeader struct {
 	Value string `json:"value"`
 }
 type HealthConfigOptions struct {
-	HealthConfigID     int          `json:"-"`
-	Headers            []HTTPHeader `json:"http_headers"`
-	Body               any          `json:"body"` // This must be encoded into json.
-	ExpectedStatusCode int          `json:"expected_status_code"`
+	Headers            []HTTPHeader `json:"http_headers" rethinkdb:"http_headers"`
+	Body               any          `json:"body" rethinkdb:"body"` // This must be encoded into json.
+	ExpectedStatusCode int          `json:"expected_status_code" rethinkdb:"expected_status_code"`
 }

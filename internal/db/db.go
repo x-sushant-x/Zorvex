@@ -8,6 +8,12 @@ import (
 	"gopkg.in/rethinkdb/rethinkdb-go.v6"
 )
 
+type DBClient interface {
+	AddNewServiceToDB(types.Service) error
+	CreateTables() error
+	GetServiceInstances(string) ([]types.Service, error)
+}
+
 type RethinkClient struct {
 	Session *rethinkdb.Session
 	DB      rethinkdb.Term
@@ -22,8 +28,6 @@ func NewRethinkClient() (*RethinkClient, error) {
 
 	if err != nil {
 		return nil, fmt.Errorf("unable to connect to database: %v", err)
-	} else {
-		fmt.Println("Connected to database.......")
 	}
 
 	return &RethinkClient{
@@ -50,4 +54,19 @@ func (r *RethinkClient) AddNewServiceToDB(data types.Service) error {
 	}
 
 	return nil
+}
+
+func (r *RethinkClient) GetServiceInstances(name string) ([]types.Service, error) {
+	cursor, err := r.DB.Table("services").Filter(map[string]interface{}{"name": name}).Run(r.Session)
+	if err != nil {
+		return nil, fmt.Errorf("unable to add service to db: %v", err.Error())
+	}
+
+	var result []types.Service
+	err = cursor.All(&result)
+	if err != nil {
+		return nil, fmt.Errorf("unable to marshal services into json: %v", err.Error())
+	}
+
+	return result, nil
 }

@@ -1,6 +1,4 @@
 # Zorvex
-### 🔴 Code will be pushed soon.
-
 Zorvex is a comprehensive platform designed to streamline service registration, effortless discovery, and intelligent load balancing for microservices in complex architectures.
 
 #### Features:
