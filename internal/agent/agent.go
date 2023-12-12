@@ -1,8 +1,7 @@
 package agent
 
 import (
-	"fmt"
-
+	"github.com/rs/zerolog/log"
 	"github.com/sushant102004/zorvex/internal/db"
 	loadbalancer "github.com/sushant102004/zorvex/internal/load-balancer"
 	"github.com/sushant102004/zorvex/internal/types"
@@ -28,7 +27,8 @@ func NewServiceAgent(lb *loadbalancer.LoadBalancer, db db.DBClient) (*ServiceAge
 
 func (sa *ServiceAgent) RegisterService(data types.Service) error {
 	if err := sa.db.AddNewServiceToDB(data); err != nil {
-		return fmt.Errorf("unable to add service to db: %v", err.Error())
+		log.Err(err).Msgf("unable to register new service")
+		return err
 	}
 	return nil
 }
@@ -36,7 +36,8 @@ func (sa *ServiceAgent) RegisterService(data types.Service) error {
 func (sa *ServiceAgent) GetServicesData(name string) ([]types.Service, error) {
 	svcInstances, err := sa.db.GetServiceInstances(name)
 	if err != nil {
-		return nil, fmt.Errorf("unable to get service instances: %v", err.Error())
+		log.Err(err).Msgf("unable to get all services")
+		return nil, err
 	}
 	return svcInstances, nil
 }
