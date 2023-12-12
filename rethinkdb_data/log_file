@@ -1,0 +1,40 @@
+2023-12-12T22:53:05.176157297 0.020581s notice: Recursively removing directory rethinkdb_data/tmp
+2023-12-12T22:53:05.274245177 0.118668s info: Created directory 'rethinkdb_data' and a metadata file inside it.
+2023-12-12T22:53:21.617585794 0.045956s notice: Running rethinkdb 2.4.4~0jammy (x86_64-linux-gnu) (GCC 11.4.0)...
+2023-12-12T22:53:21.622221303 0.050593s notice: Running on Linux 5.15.133.1-microsoft-standard-WSL2 x86_64
+2023-12-12T22:53:21.623818858 0.052189s notice: Loading data from directory /mnt/d/GoLang/Zorvex/rethinkdb_data
+2023-12-12T22:53:21.650821524 0.079191s info: Automatically using cache size of 100 MB
+2023-12-12T22:53:21.651220355 0.079590s warn: Cache size does not leave much memory for server and query overhead (available memory: 1061 MB).
+2023-12-12T22:53:21.651223642 0.079593s warn: Cache size is very low and may impact performance.
+2023-12-12T22:53:21.688558576 0.116928s notice: Listening for intracluster connections on port 29015
+2023-12-12T22:53:21.691744323 0.120115s notice: Listening for client driver connections on port 28015
+2023-12-12T22:53:21.691852770 0.120222s notice: Listening for administrative HTTP connections on port 8080
+2023-12-12T22:53:21.691854824 0.120224s notice: Listening on cluster addresses: 127.0.0.1, ::1
+2023-12-12T22:53:21.691857198 0.120227s notice: Listening on driver addresses: 127.0.0.1, ::1
+2023-12-12T22:53:21.691859262 0.120229s notice: Listening on http addresses: 127.0.0.1, ::1
+2023-12-12T22:53:21.691860845 0.120230s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2023-12-12T22:53:21.691862428 0.120232s notice: Server ready, "cyberboy_ksl" 4dfcfbdb-adbd-418d-9f7c-58cb3aa8f8ac
+2023-12-12T22:54:15.845929476 54.274299s info: Table 81f7b417-8128-4d20-8010-2269527009e3: Starting a new Raft election for term 1.
+2023-12-12T22:54:15.848045555 54.276416s info: Table 81f7b417-8128-4d20-8010-2269527009e3: Added replica on this server.
+2023-12-12T22:54:15.855112154 54.283482s info: Table 81f7b417-8128-4d20-8010-2269527009e3: This server is Raft leader for term 1. Latest log index is 0.
+2023-12-12T23:16:16.525734007 1374.954104s notice: Server got SIGINT from pid 0, uid 0; shutting down...
+2023-12-12T23:16:16.526329833 1374.954699s notice: Shutting down client connections...
+2023-12-12T23:16:16.526896275 1374.955266s notice: All client connections closed.
+2023-12-12T23:16:16.526898279 1374.955268s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2023-12-12T23:16:16.542604481 1374.970974s notice: Storage engine shut down.
+2023-12-12T23:16:23.996762117 0.060335s notice: Running rethinkdb 2.4.4~0jammy (x86_64-linux-gnu) (GCC 11.4.0)...
+2023-12-12T23:16:24.001817576 0.065392s notice: Running on Linux 5.15.133.1-microsoft-standard-WSL2 x86_64
+2023-12-12T23:16:24.003017967 0.066591s notice: Loading data from directory /mnt/d/GoLang/Zorvex/rethinkdb_data
+2023-12-12T23:16:24.039423414 0.102996s info: Automatically using cache size of 100 MB
+2023-12-12T23:16:24.039635038 0.103208s warn: Cache size does not leave much memory for server and query overhead (available memory: 661 MB).
+2023-12-12T23:16:24.039637663 0.103210s warn: Cache size is very low and may impact performance.
+2023-12-12T23:16:24.118958282 0.182531s notice: Listening for intracluster connections on port 29015
+2023-12-12T23:16:24.145201933 0.208775s notice: Listening for client driver connections on port 28015
+2023-12-12T23:16:24.145315490 0.208888s notice: Listening for administrative HTTP connections on port 8080
+2023-12-12T23:16:24.145316422 0.208889s notice: Listening on cluster addresses: 127.0.0.1, ::1
+2023-12-12T23:16:24.145316712 0.208889s notice: Listening on driver addresses: 127.0.0.1, ::1
+2023-12-12T23:16:24.145320520 0.208893s notice: Listening on http addresses: 127.0.0.1, ::1
+2023-12-12T23:16:24.145321041 0.208893s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2023-12-12T23:16:24.145324077 0.208897s notice: Server ready, "cyberboy_ksl" 4dfcfbdb-adbd-418d-9f7c-58cb3aa8f8ac
+2023-12-12T23:16:25.828676060 1.892249s info: Table 81f7b417-8128-4d20-8010-2269527009e3: Starting a new Raft election for term 2.
+2023-12-12T23:16:25.836268341 1.899841s info: Table 81f7b417-8128-4d20-8010-2269527009e3: This server is Raft leader for term 2. Latest log index is 2.

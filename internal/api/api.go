@@ -26,7 +26,7 @@ func (h *HTTPHandler) handleRegisterService(w http.ResponseWriter, r *http.Reque
 	var serviceData types.Service
 
 	if err := json.NewDecoder(r.Body).Decode(&serviceData); err != nil {
-		http.Error(w, "invalid request body"+err.Error(), http.StatusBadRequest)
+		http.Error(w, "invalid request body: "+err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -52,6 +52,15 @@ func (h *HTTPHandler) handleDiscoverService(w http.ResponseWriter, r *http.Reque
 		http.Error(w, "unable to get services: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	if len(data) == 0 {
+		resp := map[string]string{
+			"message": "service not found",
+		}
+		WriteResponse(w, http.StatusNoContent, resp)
+		return
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(data)
 }

@@ -1,7 +1,5 @@
 package loadbalancer
 
-import "fmt"
-
 type Balancer interface {
 	RoundRobin() error // Read about it later
 	Random() error
@@ -16,21 +14,17 @@ func NewLoadBalancer() *LoadBalancer {
 }
 
 func (lb *LoadBalancer) RoundRobin() error {
-	fmt.Println("Round Robin Strategy")
 	return nil
 }
 
 func (lb *LoadBalancer) Random() error {
-	fmt.Println("Random Strategy")
 	return nil
 }
 
 func (lb *LoadBalancer) LeastConnections() error {
-	fmt.Println("Least Connection Strategy")
 	return nil
 }
 
 func (lb *LoadBalancer) LeastResponseTime() error {
-	fmt.Println("Least Response Strategy")
 	return nil
 }
