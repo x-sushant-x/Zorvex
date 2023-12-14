@@ -1,6 +1,8 @@
 # Zorvex
 Zorvex is a comprehensive platform designed to streamline service registration, effortless discovery, and intelligent load balancing for microservices in complex architectures.
 
+<img src="https://github.com/sushant102004/Zorvex/blob/main/Zorvex%20Architecture.jpg"/>
+
 #### Features:
 
 1. 🚀 Efficient Service Registration: Register services seamlessly with comprehensive metadata, networking details, and health check endpoints.
