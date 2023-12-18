@@ -1,0 +1,77 @@
+2023-12-17T15:24:31.151604692 0.005303s notice: Recursively removing directory /data/rethinkdb_data/tmp
+2023-12-17T15:24:31.156767553 0.010458s notice: Initializing directory /data/rethinkdb_data
+2023-12-17T15:24:31.156930846 0.010622s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/data/rethinkdb_data' did not already exist or is empty.)
+2023-12-17T15:24:31.156982134 0.010673s notice: Running rethinkdb 2.4.4~0bookworm (x86_64-linux-gnu) (GCC 12.2.0)...
+2023-12-17T15:24:31.159397450 0.013089s notice: Running on Linux 6.5.0-14-generic x86_64
+2023-12-17T15:24:31.159442314 0.013133s notice: Loading data from directory /data/rethinkdb_data
+2023-12-17T15:24:31.183808154 0.037499s info: Automatically using cache size of 882 MB
+2023-12-17T15:24:31.185081961 0.038773s notice: Listening for intracluster connections on port 29015
+2023-12-17T15:24:31.228238182 0.081929s notice: Listening for client driver connections on port 28015
+2023-12-17T15:24:31.228352592 0.082043s notice: Listening for administrative HTTP connections on port 8080
+2023-12-17T15:24:31.228360880 0.082052s notice: Listening on cluster addresses: 127.0.0.1, 172.18.0.2
+2023-12-17T15:24:31.228368556 0.082059s notice: Listening on driver addresses: 127.0.0.1, 172.18.0.2
+2023-12-17T15:24:31.228376172 0.082067s notice: Listening on http addresses: 127.0.0.1, 172.18.0.2
+2023-12-17T15:24:31.228383527 0.082074s notice: Server ready, "0550bf7de6e2_c9n" cd6e104f-a97f-4faf-9161-e87074dfacc5
+2023-12-17T15:26:29.683200122 118.536891s info: Table b7a2e868-e798-4ed2-b71a-0e02575e56ea: Starting a new Raft election for term 1.
+2023-12-17T15:26:29.683433285 118.537124s info: Table b7a2e868-e798-4ed2-b71a-0e02575e56ea: Added replica on this server.
+2023-12-17T15:26:29.685859938 118.539551s info: Table b7a2e868-e798-4ed2-b71a-0e02575e56ea: This server is Raft leader for term 1. Latest log index is 0.
+2023-12-17T15:26:48.627464556 137.481156s notice: Removing file /data/rethinkdb_data/b7a2e868-e798-4ed2-b71a-0e02575e56ea
+2023-12-17T15:26:48.627473034 137.481164s info: Table b7a2e868-e798-4ed2-b71a-0e02575e56ea: Deleted the table.
+2023-12-17T15:26:55.223772921 144.077464s info: Table eeb283c8-aea7-4b05-9cb4-c6d3a49d9ce2: Starting a new Raft election for term 1.
+2023-12-17T15:26:55.223906422 144.077597s info: Table eeb283c8-aea7-4b05-9cb4-c6d3a49d9ce2: Added replica on this server.
+2023-12-17T15:26:55.226880808 144.080572s info: Table eeb283c8-aea7-4b05-9cb4-c6d3a49d9ce2: This server is Raft leader for term 1. Latest log index is 0.
+2023-12-17T16:07:08.236241257 2557.089932s notice: Server got SIGTERM from pid 0, uid 0; shutting down...
+2023-12-17T16:07:08.236459539 2557.090150s notice: Shutting down client connections...
+2023-12-17T16:07:08.236528580 2557.090219s notice: All client connections closed.
+2023-12-17T16:07:08.236531785 2557.090223s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2023-12-17T16:07:08.238975615 2557.092666s notice: Storage engine shut down.
+2023-12-18T06:01:12.640994041 0.016876s notice: Running rethinkdb 2.4.4~0bookworm (x86_64-linux-gnu) (GCC 12.2.0)...
+2023-12-18T06:01:12.647092343 0.022976s notice: Running on Linux 6.5.0-14-generic x86_64
+2023-12-18T06:01:12.647203003 0.023085s notice: Loading data from directory /data/rethinkdb_data
+2023-12-18T06:01:12.666943702 0.042825s info: Automatically using cache size of 1394 MB
+2023-12-18T06:01:12.669831492 0.045713s notice: Listening for intracluster connections on port 29015
+2023-12-18T06:01:12.743119601 0.119001s notice: Listening for client driver connections on port 28015
+2023-12-18T06:01:12.743311567 0.119193s notice: Listening for administrative HTTP connections on port 8080
+2023-12-18T06:01:12.743393103 0.119275s notice: Listening on cluster addresses: 127.0.0.1, 172.18.0.2
+2023-12-18T06:01:12.743411887 0.119294s notice: Listening on driver addresses: 127.0.0.1, 172.18.0.2
+2023-12-18T06:01:12.743428878 0.119311s notice: Listening on http addresses: 127.0.0.1, 172.18.0.2
+2023-12-18T06:01:12.743463921 0.119346s notice: Server ready, "0550bf7de6e2_c9n" cd6e104f-a97f-4faf-9161-e87074dfacc5
+2023-12-18T06:01:14.042029137 1.417911s info: Table eeb283c8-aea7-4b05-9cb4-c6d3a49d9ce2: Starting a new Raft election for term 2.
+2023-12-18T06:01:14.049678872 1.425561s info: Table eeb283c8-aea7-4b05-9cb4-c6d3a49d9ce2: This server is Raft leader for term 2. Latest log index is 2.
+2023-12-18T06:21:07.908920596 1195.284803s notice: Server got SIGTERM from pid 0, uid 0; shutting down...
+2023-12-18T06:21:07.909231179 1195.285113s notice: Shutting down client connections...
+2023-12-18T06:21:07.909344472 1195.285226s notice: All client connections closed.
+2023-12-18T06:21:07.909350844 1195.285233s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2023-12-18T06:21:07.914461942 1195.290344s notice: Storage engine shut down.
+2023-12-18T08:34:14.162274792 0.014684s notice: Running rethinkdb 2.4.4~0bookworm (x86_64-linux-gnu) (GCC 12.2.0)...
+2023-12-18T08:34:14.169251376 0.021663s notice: Running on Linux 6.5.0-14-generic x86_64
+2023-12-18T08:34:14.169370419 0.021780s notice: Loading data from directory /data/rethinkdb_data
+2023-12-18T08:34:14.189106141 0.041515s info: Automatically using cache size of 1342 MB
+2023-12-18T08:34:14.192127170 0.044536s notice: Listening for intracluster connections on port 29015
+2023-12-18T08:34:14.243999421 0.096411s notice: Listening for client driver connections on port 28015
+2023-12-18T08:34:14.244200364 0.096610s notice: Listening for administrative HTTP connections on port 8080
+2023-12-18T08:34:14.244202317 0.096612s notice: Listening on cluster addresses: 127.0.0.1, 172.18.0.2
+2023-12-18T08:34:14.244223884 0.096633s notice: Listening on driver addresses: 127.0.0.1, 172.18.0.2
+2023-12-18T08:34:14.244245691 0.096655s notice: Listening on http addresses: 127.0.0.1, 172.18.0.2
+2023-12-18T08:34:14.244280691 0.096690s notice: Server ready, "0550bf7de6e2_c9n" cd6e104f-a97f-4faf-9161-e87074dfacc5
+2023-12-18T08:34:15.253978476 1.106388s info: Table eeb283c8-aea7-4b05-9cb4-c6d3a49d9ce2: Starting a new Raft election for term 3.
+2023-12-18T08:34:15.261810001 1.114219s info: Table eeb283c8-aea7-4b05-9cb4-c6d3a49d9ce2: This server is Raft leader for term 3. Latest log index is 5.
+2023-12-18T12:57:15.929274350 4806.079789s warn: RethinkDB has been accessing a lot of swap memory in the past ten minutes. This may impact performace.
+2023-12-18T13:24:15.293636167 6425.444146s notice: Server got SIGTERM from pid 0, uid 0; shutting down...
+2023-12-18T13:24:15.304615715 6425.455125s notice: Shutting down client connections...
+2023-12-18T13:24:15.306824955 6425.457334s notice: All client connections closed.
+2023-12-18T13:24:15.306835462 6425.457345s notice: Shutting down storage engine... (This may take a while if you had a lot of unflushed data in the writeback cache.)
+2023-12-18T13:24:15.381307660 6425.531817s notice: Storage engine shut down.
+2023-12-18T16:19:59.217954126 0.018467s notice: Running rethinkdb 2.4.4~0bookworm (x86_64-linux-gnu) (GCC 12.2.0)...
+2023-12-18T16:19:59.227798193 0.028318s notice: Running on Linux 6.5.0-14-generic x86_64
+2023-12-18T16:19:59.228052661 0.028565s notice: Loading data from directory /data/rethinkdb_data
+2023-12-18T16:19:59.249508944 0.050022s info: Automatically using cache size of 1015 MB
+2023-12-18T16:19:59.254338610 0.054851s notice: Listening for intracluster connections on port 29015
+2023-12-18T16:19:59.323400319 0.123913s notice: Listening for client driver connections on port 28015
+2023-12-18T16:19:59.323541383 0.124054s notice: Listening for administrative HTTP connections on port 8080
+2023-12-18T16:19:59.323551132 0.124064s notice: Listening on cluster addresses: 127.0.0.1, 172.18.0.2
+2023-12-18T16:19:59.323578804 0.124091s notice: Listening on driver addresses: 127.0.0.1, 172.18.0.2
+2023-12-18T16:19:59.323585757 0.124098s notice: Listening on http addresses: 127.0.0.1, 172.18.0.2
+2023-12-18T16:19:59.323613499 0.124126s notice: Server ready, "0550bf7de6e2_c9n" cd6e104f-a97f-4faf-9161-e87074dfacc5
+2023-12-18T16:20:00.708748245 1.509261s info: Table eeb283c8-aea7-4b05-9cb4-c6d3a49d9ce2: Starting a new Raft election for term 4.
+2023-12-18T16:20:00.711908127 1.512421s info: Table eeb283c8-aea7-4b05-9cb4-c6d3a49d9ce2: This server is Raft leader for term 4. Latest log index is 8.

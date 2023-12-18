@@ -11,6 +11,7 @@ import (
 	"github.com/sushant102004/zorvex/internal/api"
 	"github.com/sushant102004/zorvex/internal/db"
 	loadbalancer "github.com/sushant102004/zorvex/internal/load-balancer"
+	"github.com/sushant102004/zorvex/internal/observer"
 )
 
 func init() {
@@ -21,6 +22,7 @@ func init() {
 func main() {
 	// Create database connections
 	db, err := db.NewRethinkClient()
+	log.Info().Msgf("Connected to database")
 
 	if err != nil {
 		log.Fatal().Err(err).Msgf("unable to create database connection")
@@ -33,9 +35,19 @@ func main() {
 		log.Fatal().Msgf("unable to create new agent: %v", err.Error())
 	}
 
-	handler := api.NewHTTPHandler(agent)
+	go func() {
+		observer := observer.NewObserver(db)
+		log.Info().Msgf("Ready to observe services")
+		observer.SetupAllServicesOnStart()
+		observer.StreamInstances()
 
-	http.ListenAndServe(":3000", handler)
+	}()
+
+	go func() {
+		handler := api.NewHTTPHandler(agent)
+		log.Info().Msgf("API Handlers Running")
+		http.ListenAndServe(":3000", handler)
+	}()
 
 	select {}
 }

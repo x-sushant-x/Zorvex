@@ -12,6 +12,7 @@ type DBClient interface {
 	AddNewServiceToDB(types.Service) error
 	CreateTables() error
 	GetServiceInstances(string) ([]types.Service, error)
+	GetAllServices() ([]types.Service, error)
 }
 
 type RethinkClient struct {
@@ -56,6 +57,21 @@ func (r *RethinkClient) AddNewServiceToDB(data types.Service) error {
 
 func (r *RethinkClient) GetServiceInstances(name string) ([]types.Service, error) {
 	cursor, err := r.DB.Table("services").Filter(map[string]interface{}{"name": name}).Run(r.Session)
+	if err != nil {
+		return nil, err
+	}
+
+	var result []types.Service
+	err = cursor.All(&result)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (r *RethinkClient) GetAllServices() ([]types.Service, error) {
+	cursor, err := r.DB.Table("services").Run(r.Session)
 	if err != nil {
 		return nil, err
 	}
