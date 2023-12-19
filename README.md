@@ -1,4 +1,7 @@
 # Zorvex
+
+❗ <b>Currently Under Development. Do not use before official release.</b>
+
 Zorvex is a comprehensive platform designed to streamline service registration, effortless discovery, and intelligent load balancing for microservices in complex architectures.
 
 <img src="https://github.com/sushant102004/Zorvex/blob/main/Zorvex%20Architecture.jpg"/>
