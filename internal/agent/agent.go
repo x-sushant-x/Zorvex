@@ -11,17 +11,20 @@ type Agent interface {
 	RegisterService(types.Service) error
 	// Get all the services and send them to load balancer
 	GetServicesData(string) ([]types.Service, error)
+
+	// This function will serve client
+	ServeClient(string) (string, error)
 }
 
 type ServiceAgent struct {
 	db db.DBClient
-	lb *loadbalancer.Balancer
+	lb *loadbalancer.LoadBalancer
 }
 
 func NewServiceAgent(lb *loadbalancer.LoadBalancer, db db.DBClient) (*ServiceAgent, error) {
 	return &ServiceAgent{
 		db: db,
-		lb: &lb.Balancer,
+		lb: lb,
 	}, nil
 }
 
@@ -40,4 +43,12 @@ func (sa *ServiceAgent) GetServicesData(name string) ([]types.Service, error) {
 		return nil, err
 	}
 	return svcInstances, nil
+}
+
+func (sa *ServiceAgent) ServeClient(service string) (string, error) {
+	targetURL, err := sa.lb.RoundRobin(service)
+	if err != nil {
+		return "", err
+	}
+	return targetURL, nil
 }

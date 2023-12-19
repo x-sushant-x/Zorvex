@@ -28,25 +28,29 @@ func main() {
 		log.Fatal().Err(err).Msgf("unable to create database connection")
 	}
 
-	lb := loadbalancer.NewLoadBalancer()
+	observer := observer.NewObserver(db)
+	log.Info().Msgf("Ready to observe services")
+	observer.SetupAllServicesOnStart()
+
+	lb := loadbalancer.NewLoadBalancer(*observer)
 
 	agent, err := agent.NewServiceAgent(lb, db)
 	if err != nil {
 		log.Fatal().Msgf("unable to create new agent: %v", err.Error())
 	}
 
-	go func() {
-		observer := observer.NewObserver(db)
-		log.Info().Msgf("Ready to observe services")
-		observer.SetupAllServicesOnStart()
-		observer.StreamInstances()
-
-	}()
+	go observer.StreamInstances()
 
 	go func() {
 		handler := api.NewHTTPHandler(agent)
 		log.Info().Msgf("API Handlers Running")
 		http.ListenAndServe(":3000", handler)
+	}()
+
+	go func() {
+		handler := api.NewClientHTTPHandler(agent)
+		log.Info().Msgf("Client Handlers Running")
+		http.ListenAndServe(":3001", handler)
 	}()
 
 	select {}

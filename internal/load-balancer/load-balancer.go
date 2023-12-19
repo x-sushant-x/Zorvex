@@ -1,30 +1,49 @@
 package loadbalancer
 
+import (
+	"errors"
+	"fmt"
+	"sync"
+
+	"github.com/sushant102004/zorvex/internal/observer"
+	"github.com/sushant102004/zorvex/internal/types"
+)
+
 type Balancer interface {
-	RoundRobin() error // Read about it later
-	Random() error
-	LeastConnections() error
-	LeastResponseTime() error // Read about it later
+	RoundRobin([]types.Service) string
 }
 
-type LoadBalancer struct{ Balancer }
+type LoadBalancer struct {
+	ob *observer.Observer
 
-func NewLoadBalancer() *LoadBalancer {
-	return &LoadBalancer{}
+	// Round Robin stuff
+	rrMux *sync.Mutex
 }
 
-func (lb *LoadBalancer) RoundRobin() error {
-	return nil
+func NewLoadBalancer(ob observer.Observer) *LoadBalancer {
+	return &LoadBalancer{
+		ob:    &ob,
+		rrMux: &sync.Mutex{},
+	}
 }
 
-func (lb *LoadBalancer) Random() error {
-	return nil
-}
+func (lb *LoadBalancer) RoundRobin(service string) (string, error) {
+	lb.rrMux.Lock()
 
-func (lb *LoadBalancer) LeastConnections() error {
-	return nil
-}
+	services := lb.ob.ServicesInstances[service]
 
-func (lb *LoadBalancer) LeastResponseTime() error {
-	return nil
+	if len(service) == 0 {
+		return "", errors.New("no service found with name: " + service)
+	}
+
+	targetIdx := (lb.ob.ServicesPointers[service] + 1) % len(services)
+
+	lb.ob.ServicesPointers[service]++
+	lb.rrMux.Unlock()
+
+	targetService := services[targetIdx]
+
+	urlStr := fmt.Sprintf("http://%s:%d", targetService.IPAddress, targetService.Port)
+
+	return urlStr, nil
 }

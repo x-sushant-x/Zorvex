@@ -23,6 +23,7 @@ func NewObserver(db *db.RethinkClient) *Observer {
 	return &Observer{
 		db:                db,
 		ServicesInstances: make(map[string][]types.Service),
+		ServicesPointers:  make(map[string]int),
 	}
 }
 
