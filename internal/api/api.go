@@ -26,12 +26,17 @@ func (h *HTTPHandler) handleRegisterService(w http.ResponseWriter, r *http.Reque
 	var serviceData types.Service
 
 	if err := json.NewDecoder(r.Body).Decode(&serviceData); err != nil {
-		http.Error(w, "invalid request body: "+err.Error(), http.StatusBadRequest)
+		WriteResponse(w, http.StatusBadRequest, map[string]string{
+			"message": "invalid request body",
+		})
 		return
 	}
 
 	if err := h.agent.RegisterService(serviceData); err != nil {
-		http.Error(w, "unable to add service to database: "+err.Error(), http.StatusBadRequest)
+		WriteResponse(w, http.StatusInternalServerError, map[string]string{
+			"message": "unable to add service to database: ",
+			"error":   err.Error(),
+		})
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
@@ -41,23 +46,26 @@ func (h *HTTPHandler) handleRegisterService(w http.ResponseWriter, r *http.Reque
 func (h *HTTPHandler) handleDiscoverService(w http.ResponseWriter, r *http.Request) {
 	serviceName := r.URL.Query().Get("name")
 	if serviceName == "" {
-		http.Error(w, "service name must be defined in query params", http.StatusBadRequest)
+		WriteResponse(w, http.StatusBadRequest, map[string]string{
+			"message": "service name must be defined in query params",
+		})
 		return
 	}
 
 	data, err := h.agent.GetServicesData(serviceName)
 
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		http.Error(w, "unable to get services: "+err.Error(), http.StatusInternalServerError)
+		WriteResponse(w, http.StatusInternalServerError, map[string]string{
+			"message": "unable to get services data: ",
+			"error":   err.Error(),
+		})
 		return
 	}
 
 	if len(data) == 0 {
-		resp := map[string]string{
+		WriteResponse(w, http.StatusBadRequest, map[string]string{
 			"message": "service not found",
-		}
-		WriteResponse(w, http.StatusNoContent, resp)
+		})
 		return
 	}
 
