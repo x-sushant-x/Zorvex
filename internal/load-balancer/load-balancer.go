@@ -31,7 +31,8 @@ func NewLoadBalancer(ob observer.Observer) *LoadBalancer {
 }
 
 func (balancer *LoadBalancer) checkAlive(url string) bool {
-	conn, err := net.DialTimeout("tcp", url, time.Second*1)
+	// TODO: Research and change timeout
+	conn, err := net.DialTimeout("tcp", url, time.Second*4)
 	if err != nil {
 		return false
 	}
@@ -39,17 +40,33 @@ func (balancer *LoadBalancer) checkAlive(url string) bool {
 	return true
 }
 
-func (lb *LoadBalancer) RoundRobin(service string) (string, error) {
-	lb.rrMux.Lock()
-	defer lb.rrMux.Unlock()
-
+func (lb *LoadBalancer) Balance(service string) (string, error) {
 	services := lb.ob.ServicesInstances[service]
 
 	if len(services) == 0 {
 		return "", errors.New("no service found with name: " + service)
 	}
 
-	idx := lb.ob.ServicesPointers[service]
+	svc := services[0]
+
+	switch svc.LoadBalancingMethod {
+	case "RoundRobin":
+		// This url is the serveable url
+		url, err := lb.RoundRobin(service, services)
+		if err != nil {
+			return "", err
+		}
+		return url, nil
+	}
+
+	return "", errors.New("can not find a suitable service: " + service)
+}
+
+func (lb *LoadBalancer) RoundRobin(name string, services []types.Service) (string, error) {
+	lb.rrMux.Lock()
+	defer lb.rrMux.Unlock()
+
+	idx := lb.ob.ServicesPointers[name]
 
 	for {
 		targetService := services[idx]
@@ -60,7 +77,7 @@ func (lb *LoadBalancer) RoundRobin(service string) (string, error) {
 		log.Info().Msgf("Target Index: %d", idx)
 
 		if isAlive {
-			lb.ob.ServicesPointers[service] = (idx + 1) % len(services)
+			lb.ob.ServicesPointers[name] = (idx + 1) % len(services)
 			return urlStr, nil
 		}
 
@@ -68,7 +85,7 @@ func (lb *LoadBalancer) RoundRobin(service string) (string, error) {
 
 		idx = (idx + 1) % len(services)
 
-		if idx == lb.ob.ServicesPointers[service] {
+		if idx == lb.ob.ServicesPointers[name] {
 			// If we have gone through all instances and reached the starting point, exit the loop
 			break
 		}

@@ -46,9 +46,10 @@ func (sa *ServiceAgent) GetServicesData(name string) ([]types.Service, error) {
 }
 
 func (sa *ServiceAgent) ServeClient(service string) (string, error) {
-	targetURL, err := sa.lb.RoundRobin(service)
+	url, err := sa.lb.Balance(service)
+
 	if err != nil {
 		return "", err
 	}
-	return targetURL, nil
+	return url, nil
 }
