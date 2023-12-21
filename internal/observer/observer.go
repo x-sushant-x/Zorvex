@@ -8,10 +8,6 @@ import (
 	"github.com/sushant102004/zorvex/internal/types"
 )
 
-/*
-	ServiceName - InstanceURL, InstanceURL, InstanceURL, InstanceURL
-*/
-
 type Observer struct {
 	db                *db.RethinkClient
 	ServicesInstances map[string][]types.Service

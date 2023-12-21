@@ -1,10 +1,11 @@
 package db
 
 import (
+	"errors"
 	"time"
 
-	"github.com/rs/zerolog/log"
 	"github.com/sushant102004/zorvex/internal/types"
+	"github.com/sushant102004/zorvex/internal/utils"
 	"gopkg.in/rethinkdb/rethinkdb-go.v6"
 )
 
@@ -28,7 +29,7 @@ func NewRethinkClient() (*RethinkClient, error) {
 	})
 
 	if err != nil {
-		return nil, err
+		return nil, errors.Join(utils.ErrDBConnection, err)
 	}
 
 	return &RethinkClient{
@@ -40,16 +41,15 @@ func NewRethinkClient() (*RethinkClient, error) {
 func (r *RethinkClient) CreateTables() error {
 	_, err := r.DB.TableCreate("services").Run(r.Session)
 	if err != nil {
-		return err
+		return errors.Join(utils.ErrDBTableCreate, err)
 	}
-	log.Info().Msgf("Database Tables Created Successfully")
 	return nil
 }
 
 func (r *RethinkClient) AddNewServiceToDB(data types.Service) error {
 	_, err := r.DB.Table("services").Insert(data).RunWrite(r.Session)
 	if err != nil {
-		return err
+		return errors.Join(utils.ErrDBInsert, err)
 	}
 
 	return nil
@@ -64,7 +64,7 @@ func (r *RethinkClient) GetServiceInstances(name string) ([]types.Service, error
 	var result []types.Service
 	err = cursor.All(&result)
 	if err != nil {
-		return nil, err
+		return nil, errors.Join(utils.ErrDBGet, err)
 	}
 
 	return result, nil
@@ -73,13 +73,14 @@ func (r *RethinkClient) GetServiceInstances(name string) ([]types.Service, error
 func (r *RethinkClient) GetAllServices() ([]types.Service, error) {
 	cursor, err := r.DB.Table("services").Run(r.Session)
 	if err != nil {
-		return nil, err
+		return nil, errors.Join(utils.ErrDBGet, err)
+
 	}
 
 	var result []types.Service
 	err = cursor.All(&result)
 	if err != nil {
-		return nil, err
+		return nil, errors.Join(utils.ErrDataParse, err)
 	}
 
 	return result, nil

@@ -10,6 +10,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/sushant102004/zorvex/internal/observer"
 	"github.com/sushant102004/zorvex/internal/types"
+	"github.com/sushant102004/zorvex/internal/utils"
 )
 
 type Balancer interface {
@@ -59,7 +60,7 @@ func (lb *LoadBalancer) Balance(service string) (string, error) {
 		return url, nil
 	}
 
-	return "", errors.New("can not find a suitable service: " + service)
+	return "", utils.ErrUnableToLoadBalance
 }
 
 func (lb *LoadBalancer) RoundRobin(name string, services []types.Service) (string, error) {
@@ -91,5 +92,5 @@ func (lb *LoadBalancer) RoundRobin(name string, services []types.Service) (strin
 		}
 	}
 
-	return "", errors.New("all instances of the service are not alive")
+	return "", utils.ErrNoServiceAlive
 }
