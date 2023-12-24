@@ -1,7 +1,7 @@
 function AllServicesHeading() {
     return (
         <>
-            <div className="flex justify-center h-screen mt-10">
+            <div className="flex justify-center mt-10">
                 <div className="container w-5/6 h-20 flex justify-between">
 
                     <div>
