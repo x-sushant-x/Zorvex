@@ -12,6 +12,8 @@ function AppBar() {
                             <a href="#">My Blog</a>
                             <a href="#">GitHub</a>
                         </nav>
+                        <input type="text" placeholder="Search Services" className="border border-black rounded-lg py-2 pl-4 pr-4 w-60" />
+
                     </div>
                 </div>
             </header>
