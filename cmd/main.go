@@ -1,7 +1,6 @@
 package main
 
 import (
-	"net/http"
 	"os"
 	"time"
 
@@ -44,13 +43,13 @@ func main() {
 	go func() {
 		handler := api.NewHTTPHandler(agent)
 		log.Info().Msgf("API Handlers Running")
-		http.ListenAndServe(":3000", handler)
+		handler.ServeHandlers()
 	}()
 
 	go func() {
 		handler := api.NewClientHTTPHandler(agent)
 		log.Info().Msgf("Client Handlers Running")
-		http.ListenAndServe(":3001", handler)
+		handler.ServeHandlers()
 	}()
 
 	select {}

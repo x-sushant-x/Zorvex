@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/sushant102004/zorvex/internal/agent"
 )
 
@@ -17,40 +18,41 @@ func NewClientHTTPHandler(agent agent.Agent) *ClientHTTPHandler {
 	}
 }
 
-func (h *ClientHTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case "GET":
-		if r.URL.Query().Get("service") == "" {
-			WriteResponse(w, http.StatusBadRequest, map[string]string{
-				"message": "service name must be defined in query parameters",
-			})
-			return
-		}
+func (h *ClientHTTPHandler) ServeHandlers() {
+	app := fiber.New()
 
-		redirectURL, err := h.agent.ServeClient(r.URL.Query().Get("service"))
-		if err != nil {
-			WriteResponse(w, http.StatusInternalServerError, map[string]string{
-				"message": "unable to serve client",
-				"error":   err.Error(),
-			})
-			return
-		}
+	app.Get("/", h.ServeClient)
 
-		if redirectURL == "" {
-			WriteResponse(w, http.StatusInternalServerError, map[string]string{
-				"message": "invalid redirect URL",
-			})
-			return
-		}
+	app.Listen(":3001")
+}
 
-		if !strings.HasPrefix(redirectURL, "http://") && !strings.HasPrefix(redirectURL, "https://") {
-			redirectURL = "http://" + redirectURL
-		}
+func (h *ClientHTTPHandler) ServeClient(c *fiber.Ctx) error {
+	serviceName := c.Query("service")
 
-		http.Redirect(w, r, redirectURL, http.StatusFound)
-	default:
-		WriteResponse(w, http.StatusBadRequest, map[string]string{
-			"message": "method not allowed",
+	if serviceName == "" {
+		return WriteResponse(c, http.StatusBadRequest, map[string]string{
+			"message": "service name must be defined in query parameters",
 		})
 	}
+
+	redirectURL, err := h.agent.ServeClient(serviceName)
+	if err != nil {
+		return WriteResponse(c, http.StatusInternalServerError, map[string]string{
+			"message": "unable to serve client",
+			"error":   err.Error(),
+		})
+	}
+
+	if redirectURL == "" {
+		return WriteResponse(c, http.StatusInternalServerError, map[string]string{
+			"message": "invalid redirect URL",
+		})
+	}
+
+	if !strings.HasPrefix(redirectURL, "http://") && !strings.HasPrefix(redirectURL, "https://") {
+		redirectURL = "http://" + redirectURL
+	}
+
+	return c.Redirect(redirectURL, http.StatusFound)
+
 }

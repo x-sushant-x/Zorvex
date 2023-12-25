@@ -10,7 +10,8 @@ import (
 type Agent interface {
 	RegisterService(types.Service) error
 	// Get all the services and send them to load balancer
-	GetServicesData(string) ([]types.Service, error)
+	GetServiceData(string) ([]types.Service, error)
+	GetAllServices() ([]types.Service, error)
 
 	// This function will serve client
 	ServeClient(string) (string, error)
@@ -36,13 +37,17 @@ func (sa *ServiceAgent) RegisterService(data types.Service) error {
 	return nil
 }
 
-func (sa *ServiceAgent) GetServicesData(name string) ([]types.Service, error) {
+func (sa *ServiceAgent) GetServiceData(name string) ([]types.Service, error) {
 	svcInstances, err := sa.db.GetServiceInstances(name)
 	if err != nil {
 		log.Err(err).Msgf("unable to get all services")
 		return nil, err
 	}
 	return svcInstances, nil
+}
+
+func (sa *ServiceAgent) GetAllServices() ([]types.Service, error) {
+	return sa.db.GetAllServices()
 }
 
 func (sa *ServiceAgent) ServeClient(service string) (string, error) {

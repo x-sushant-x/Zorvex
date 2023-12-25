@@ -5,9 +5,9 @@
 package api
 
 import (
-	"encoding/json"
 	"net/http"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/sushant102004/zorvex/internal/agent"
 	"github.com/sushant102004/zorvex/internal/types"
 )
@@ -22,64 +22,79 @@ func NewHTTPHandler(svcAgent agent.Agent) *HTTPHandler {
 	}
 }
 
-func (h *HTTPHandler) handleRegisterService(w http.ResponseWriter, r *http.Request) {
+func (h *HTTPHandler) ServeHandlers() {
+	app := fiber.New()
+
+	app.Get("/discover", h.handleDiscoverService)
+	app.Post("/register", h.handleRegisterService)
+
+	app.Listen(":3000")
+}
+
+func (h *HTTPHandler) handleRegisterService(c *fiber.Ctx) error {
 	var serviceData types.Service
 
-	if err := json.NewDecoder(r.Body).Decode(&serviceData); err != nil {
-		WriteResponse(w, http.StatusBadRequest, map[string]string{
+	if err := c.BodyParser(&serviceData); err != nil {
+		return WriteResponse(c, http.StatusBadRequest, map[string]string{
 			"message": "invalid request body",
 		})
-		return
 	}
 
 	if err := h.agent.RegisterService(serviceData); err != nil {
-		WriteResponse(w, http.StatusInternalServerError, map[string]string{
+		return WriteResponse(c, http.StatusInternalServerError, map[string]string{
 			"message": "unable to add service to database: ",
 			"error":   err.Error(),
 		})
-		return
+
 	}
-	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte("service registered successfully"))
+	return WriteResponse(c, http.StatusOK, map[string]string{
+		"message": "service registered successfully",
+	})
 }
 
-func (h *HTTPHandler) handleDiscoverService(w http.ResponseWriter, r *http.Request) {
-	serviceName := r.URL.Query().Get("name")
+func (h *HTTPHandler) handleDiscoverService(c *fiber.Ctx) error {
+	serviceName := c.Query("service")
 	if serviceName == "" {
-		WriteResponse(w, http.StatusBadRequest, map[string]string{
+		return WriteResponse(c, http.StatusBadRequest, map[string]string{
 			"message": "service name must be defined in query params",
 		})
-		return
 	}
 
-	data, err := h.agent.GetServicesData(serviceName)
+	data, err := h.agent.GetServiceData(serviceName)
 
 	if err != nil {
-		WriteResponse(w, http.StatusInternalServerError, map[string]string{
+		return WriteResponse(c, http.StatusInternalServerError, map[string]string{
 			"message": "unable to get services data: ",
 			"error":   err.Error(),
 		})
-		return
 	}
 
 	if len(data) == 0 {
-		WriteResponse(w, http.StatusBadRequest, map[string]string{
+		return WriteResponse(c, http.StatusBadRequest, map[string]string{
 			"message": "service not found",
 		})
-		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(data)
+	return WriteResponse(c, http.StatusOK, map[string]any{
+		"service": data,
+	})
 }
 
-func (h *HTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case "POST":
-		h.handleRegisterService(w, r)
-	case "GET":
-		h.handleDiscoverService(w, r)
-	default:
-		http.Error(w, "Method not allowed", http.StatusBadRequest)
+func (h *HTTPHandler) handleGetAllServices(c *fiber.Ctx) error {
+	services, err := h.agent.GetAllServices()
+	if err != nil {
+		return WriteResponse(c, http.StatusInternalServerError, map[string]string{
+			"error": err.Error(),
+		})
 	}
+
+	if len(services) == 0 {
+		return WriteResponse(c, http.StatusInternalServerError, map[string]string{
+			"error": err.Error(),
+		})
+	}
+
+	return WriteResponse(c, http.StatusOK, map[string]any{
+		"services": services,
+	})
 }
