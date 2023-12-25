@@ -2,18 +2,24 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/sushant102004/Zorvex/CLI/utils"
 )
 
 var (
 	rootCmd = &cobra.Command{
-		Use:   "set_url",
-		Short: utils.CommandsList["set_url"].Short,
-		Long:  utils.CommandsList["set_url"].Long,
-		Run:   SetAgent,
+		Use:   "zorvex",
+		Short: "Zorvex CLI. Manage your services using this CLI application easily.",
+	}
+
+	getAgentURL = &cobra.Command{
+		Use:   "get_agent_url",
+		Short: CommandsList["get_agent_url"].Short,
+		Long:  CommandsList["get_agent_url"].Long,
+		Run:   GetAgentURL,
 	}
 )
 
 func Execute() error {
+	rootCmd.AddCommand(getAgentURL)
+
 	return rootCmd.Execute()
 }
