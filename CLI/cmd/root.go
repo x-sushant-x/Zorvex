@@ -16,10 +16,18 @@ var (
 		Long:  CommandsList["get_agent_url"].Long,
 		Run:   GetAgentURL,
 	}
+
+	getAllServices = &cobra.Command{
+		Use:   "get_all_services",
+		Short: CommandsList["get_all_services"].Short,
+		Long:  CommandsList["get_all_services"].Long,
+		Run:   GetAllServices,
+	}
 )
 
 func Execute() error {
 	rootCmd.AddCommand(getAgentURL)
+	rootCmd.AddCommand(getAllServices)
 
 	return rootCmd.Execute()
 }
