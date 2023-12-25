@@ -26,3 +26,19 @@ func GetAllServices() ([]types.Service, error) {
 
 	return serviceResp.Services, nil
 }
+
+func GetAllDownServices() ([]types.Service, error) {
+	services, err := GetAllServices()
+	if err != nil {
+		utils.Error(err.Error())
+	}
+
+	var downServices []types.Service
+	for _, service := range services {
+		if service.Status == "down" {
+			downServices = append(downServices, service)
+		}
+	}
+
+	return downServices, nil
+}

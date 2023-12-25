@@ -14,4 +14,9 @@ var CommandsList = map[string]cobra.Command{
 		Short: "Usage: zorvex get_agent_url",
 		Long:  "Returns the URL for the agent.",
 	},
+
+	"get_all_down_services": {
+		Short: "Usage: zorvex get_all_down_services",
+		Long:  "Returns all the services that are down.",
+	},
 }
