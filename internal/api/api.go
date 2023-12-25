@@ -26,6 +26,7 @@ func (h *HTTPHandler) ServeHandlers() {
 	app := fiber.New()
 
 	app.Get("/discover", h.handleDiscoverService)
+	app.Get("/all-services", h.handleGetAllServices)
 	app.Post("/register", h.handleRegisterService)
 
 	app.Listen(":3000")
