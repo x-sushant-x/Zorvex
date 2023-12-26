@@ -1,10 +1,13 @@
 package cmd
 
 import (
+	"encoding/json"
+	"errors"
 	"fmt"
 
 	"github.com/fatih/color"
 	"github.com/rodaine/table"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"github.com/sushant102004/Zorvex/CLI/services"
 	"github.com/sushant102004/Zorvex/CLI/utils"
@@ -58,4 +61,24 @@ func GetAllDownServices(cmd *cobra.Command, args []string) {
 
 	tbl.Print()
 	fmt.Println()
+}
+
+func GetService(cmd *cobra.Command, args []string) {
+	if len(args) != 2 {
+		utils.Error(errors.New("invalid command").Error())
+	}
+
+	service, err := services.GetSingleService(args[1])
+	if err != nil {
+		utils.Error(err.Error())
+	}
+
+	jsonData, err := json.MarshalIndent(service, "", "  ")
+	if err != nil {
+		fmt.Println("Error marshalling JSON:", err)
+		return
+	}
+
+	log.Info().Msgf("SUCCESS")
+	fmt.Println(string(jsonData))
 }

@@ -10,13 +10,6 @@ var (
 		Short: "Zorvex CLI. Manage your services using this CLI application easily.",
 	}
 
-	getAgentURL = &cobra.Command{
-		Use:   "get_agent_url",
-		Short: CommandsList["get_agent_url"].Short,
-		Long:  CommandsList["get_agent_url"].Long,
-		Run:   GetAgentURL,
-	}
-
 	getAllServices = &cobra.Command{
 		Use:   "get_all_services",
 		Short: CommandsList["get_all_services"].Short,
@@ -30,12 +23,19 @@ var (
 		Long:  CommandsList["get_all_down_services"].Long,
 		Run:   GetAllDownServices,
 	}
+
+	getService = &cobra.Command{
+		Use:   "get_service",
+		Short: CommandsList["get_service"].Short,
+		Long:  CommandsList["get_service"].Long,
+		Run:   GetService,
+	}
 )
 
 func Execute() error {
-	rootCmd.AddCommand(getAgentURL)
 	rootCmd.AddCommand(getAllServices)
 	rootCmd.AddCommand(getAllDownServices)
+	rootCmd.AddCommand(getService)
 
 	return rootCmd.Execute()
 }

@@ -8,12 +8,22 @@ import (
 	"github.com/sushant102004/Zorvex/CLI/utils"
 )
 
+var AgentURL string
+
+func SetAgentURL(url string) {
+	AgentURL = url
+}
+
 type ServiceResponse struct {
 	Services []types.Service `json:"services"`
 }
 
+type InstancesResponse struct {
+	Services []types.Service `json:"instances"`
+}
+
 func GetAllServices() ([]types.Service, error) {
-	resp, err := http.Get("http://localhost:3000/all-services")
+	resp, err := http.Get(AgentURL + "/all-services")
 	if err != nil {
 		utils.Error(err.Error())
 	}
@@ -41,4 +51,24 @@ func GetAllDownServices() ([]types.Service, error) {
 	}
 
 	return downServices, nil
+}
+
+func GetSingleService(name string) (types.Service, error) {
+	resp, err := http.Get(AgentURL + "/discover?service=" + name)
+
+	if err != nil {
+		utils.Error(err.Error())
+	}
+	defer resp.Body.Close()
+
+	var instancesResp InstancesResponse
+	if err := json.NewDecoder(resp.Body).Decode(&instancesResp); err != nil {
+		utils.Error(err.Error())
+	}
+
+	if len(instancesResp.Services) == 0 {
+		return types.Service{}, nil
+	}
+
+	return instancesResp.Services[0], nil
 }

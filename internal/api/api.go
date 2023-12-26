@@ -77,7 +77,7 @@ func (h *HTTPHandler) handleDiscoverService(c *fiber.Ctx) error {
 	}
 
 	return WriteResponse(c, http.StatusOK, map[string]any{
-		"service": data,
+		"instances": data,
 	})
 }
 

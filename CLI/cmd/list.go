@@ -19,4 +19,9 @@ var CommandsList = map[string]cobra.Command{
 		Short: "Usage: zorvex get_all_down_services",
 		Long:  "Returns all the services that are down.",
 	},
+
+	"get_service": {
+		Short: "Usage: zorvex get_service = <SERVICE_NAME>",
+		Long:  "Prints complete details of a service 1st instance in JSON format.",
+	},
 }
