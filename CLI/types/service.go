@@ -3,8 +3,10 @@ package types
 type Service struct {
 	ID                  string       `json:"id" rethinkdb:"id, omitempty"`
 	Name                string       `json:"name" rethinkdb:"name"`
+	Description         string       `json:"description" rethinkdb:"description"`
 	Tags                []string     `json:"tags" rethinkdb:"tags"`
 	HTTPMethod          string       `json:"http_method" rethinkdb:"http_method"`
+	Protocol            string       `json:"http_protocol" rethinkdb:"http_protocol"` // http or https
 	IPAddress           string       `json:"ip_address" rethinkdb:"ip_address"`
 	Port                int          `json:"port" rethinkdb:"port"`
 	RegisterTime        string       `json:"register_time" rethinkdb:"register_time"`
