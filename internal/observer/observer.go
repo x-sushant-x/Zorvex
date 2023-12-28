@@ -37,6 +37,8 @@ func (o *Observer) SetupAllServicesOnStart() {
 	}
 }
 
+// This function will start a stream and listen for events from the database.
+// In case if any service status went "down" it will be instantly notified and updated in local memory
 func (o *Observer) StreamInstances() {
 	cursor, err := o.db.DB.Table("services").Changes().Run(o.db.Session)
 	if err != nil {
@@ -47,6 +49,7 @@ func (o *Observer) StreamInstances() {
 	var change map[string]interface{}
 	var data types.Service
 
+	// Some crazy stuff for checking service addition, removal and updation
 	for cursor.Next(&change) {
 		// Checking if a new service is added to database.
 		if change["new_val"] != nil {
@@ -59,7 +62,7 @@ func (o *Observer) StreamInstances() {
 			if err != nil {
 				log.Info().Msgf("unable to unmarshal service data: %v", err.Error())
 			}
-			log.Info().Msgf("Appended Service: %s", data.Name)
+			log.Info().Msgf("Changed Service Data: %s", data.Name)
 			o.ServicesInstances[data.Name] = append(o.ServicesInstances[data.Name], data)
 		} else if change["new_val"] == nil && change["old_val"] != nil {
 			tempInstances := []types.Service{}

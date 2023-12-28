@@ -10,10 +10,15 @@ import (
 )
 
 type DBClient interface {
+	// Adds a new service to databse
 	AddNewServiceToDB(types.Service) error
+	// Create table (services) in database if not exists
 	CreateTables() error
+	// Returns all the instances of a current service
 	GetServiceInstances(string) ([]types.Service, error)
+	// Returns all the services
 	GetAllServices() ([]types.Service, error)
+	// Change service status to "active" or "down"
 	ChangeServiceStatus(id, status string) error
 }
 
@@ -23,6 +28,7 @@ type RethinkClient struct {
 }
 
 func NewRethinkClient() (*RethinkClient, error) {
+	// Creating a new RethinkDB Session
 	session, err := rethinkdb.Connect(rethinkdb.ConnectOpts{
 		Address:  "localhost:28015",
 		Database: "zorvex",
@@ -30,6 +36,7 @@ func NewRethinkClient() (*RethinkClient, error) {
 	})
 
 	if err != nil {
+		// Returning 2 errors at once that's why using errors.Join()
 		return nil, errors.Join(utils.ErrDBConnection, err)
 	}
 
