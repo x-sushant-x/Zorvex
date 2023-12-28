@@ -14,6 +14,7 @@ type DBClient interface {
 	CreateTables() error
 	GetServiceInstances(string) ([]types.Service, error)
 	GetAllServices() ([]types.Service, error)
+	ChangeServiceStatus(id, status string) error
 }
 
 type RethinkClient struct {
@@ -84,4 +85,18 @@ func (r *RethinkClient) GetAllServices() ([]types.Service, error) {
 	}
 
 	return result, nil
+}
+
+func (r *RethinkClient) ChangeServiceStatus(id, status string) error {
+	_, err := r.DB.Table("services").Update(
+		map[string]interface{}{
+			"status": status,
+		},
+		rethinkdb.UpdateOpts{},
+	).Run(r.Session)
+
+	if err != nil {
+		return errors.Join(utils.ErrServiceStatusChangeError, err)
+	}
+	return nil
 }

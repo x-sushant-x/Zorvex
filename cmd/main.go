@@ -9,6 +9,7 @@ import (
 	"github.com/sushant102004/zorvex/internal/agent"
 	"github.com/sushant102004/zorvex/internal/api"
 	"github.com/sushant102004/zorvex/internal/db"
+	healtchecker "github.com/sushant102004/zorvex/internal/health_checker"
 	loadbalancer "github.com/sushant102004/zorvex/internal/load-balancer"
 	"github.com/sushant102004/zorvex/internal/observer"
 )
@@ -51,6 +52,17 @@ func main() {
 		log.Info().Msgf("Client Handlers Running")
 		handler.ServeHandlers()
 	}()
+
+	healthChecker := healtchecker.NewHealthChecker(agent, db, 10)
+
+	go func() {
+		for {
+			time.Sleep(time.Minute * 30)
+			healthChecker.StartHealthChecker()
+		}
+	}()
+
+	healthChecker.StartHealthChecker()
 
 	select {}
 }
