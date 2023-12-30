@@ -23,10 +23,13 @@ func init() {
 func main() {
 	// Create database connections
 	db, err := db.NewRethinkClient()
-	log.Info().Msgf("Connected to database")
-
 	if err != nil {
 		log.Fatal().Err(err).Msgf("unable to create database connection")
+	}
+	log.Info().Msgf("Connected to database")
+
+	if err := db.CreateTables(); err != nil {
+		panic(err)
 	}
 
 	// Onserver is something that store services data in memory for better load balancer performance.
@@ -68,12 +71,10 @@ func main() {
 	go func() {
 		for {
 			// Change this time according to your needs
-			time.Sleep(time.Minute * 30)
+			time.Sleep(time.Minute * 20)
 			healthChecker.StartHealthChecker()
 		}
 	}()
-
-	healthChecker.StartHealthChecker()
 
 	select {}
 }

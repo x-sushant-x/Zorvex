@@ -47,7 +47,24 @@ func NewRethinkClient() (*RethinkClient, error) {
 }
 
 func (r *RethinkClient) CreateTables() error {
-	_, err := r.DB.TableCreate("services").Run(r.Session)
+	cursor, err := r.DB.TableList().Run(r.Session)
+	if err != nil {
+		return errors.Join(utils.ErrDBTablesGet, err)
+	}
+
+	var tables []string
+
+	if err := cursor.All(&tables); err != nil {
+		return err
+	}
+
+	for _, table := range tables {
+		if table == "services" {
+			return nil
+		}
+	}
+
+	_, err = r.DB.TableCreate("services").Run(r.Session)
 	if err != nil {
 		return errors.Join(utils.ErrDBTableCreate, err)
 	}
@@ -95,12 +112,9 @@ func (r *RethinkClient) GetAllServices() ([]types.Service, error) {
 }
 
 func (r *RethinkClient) ChangeServiceStatus(id, status string) error {
-	_, err := r.DB.Table("services").Update(
-		map[string]interface{}{
-			"status": status,
-		},
-		rethinkdb.UpdateOpts{},
-	).Run(r.Session)
+	_, err := r.DB.Table("services").
+		Get(id).
+		Update(map[string]interface{}{"status": status}).Run(r.Session)
 
 	if err != nil {
 		return errors.Join(utils.ErrServiceStatusChangeError, err)

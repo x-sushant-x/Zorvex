@@ -9,6 +9,7 @@ var (
 	ErrDBGet                    = errors.New("failed to get data from database")
 	ErrDataParse                = errors.New("failed to parse data from into struct")
 	ErrServiceStatusChangeError = errors.New("failed to change service status in database")
+	ErrDBTablesGet              = errors.New("failed to get all tables from database")
 
 	ErrServiceNotFound     = errors.New("failed to find service with given name")
 	ErrNoServiceAlive      = errors.New("failed to find any alive service")

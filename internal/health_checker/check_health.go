@@ -72,10 +72,12 @@ func (h *HealthChecker) CheckHealth(service types.Service) {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil || resp.StatusCode != service.HealthConfig.Options.ExpectedStatusCode {
-		log.Error().Msgf("Health check failed")
+		log.Error().Msgf("Health check failed for service: %v with error: %v", service.ID, err.Error())
 		err := h.dbClient.ChangeServiceStatus(service.ID, "down")
 		if err != nil {
 			log.Error().Msgf("Unable to change service status: %v", err.Error())
+		} else {
+			log.Error().Msgf("Changed status to down for service: %v", service.ID)
 		}
 		return
 	} else {
