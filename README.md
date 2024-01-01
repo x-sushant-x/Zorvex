@@ -16,7 +16,7 @@ Zorvex is a comprehensive platform designed to streamline service registration, 
 - 📊 Monitoring and Health Checks
 
 ## Documentation
-Visit <a href="https://github.com/sushant102004/Zorvex/DOCS.md">this</a> page to read documentation.
+Visit <a href="https://github.com/sushant102004/Zorvex/blob/main/DOCS.md">this</a> page to read documentation.
 
 ## Important
 I made to project just for my hobby and I won't recommend to use it in live enviroment as it may have bugs. I'll enhance the project constantly.
