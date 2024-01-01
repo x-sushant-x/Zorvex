@@ -15,6 +15,9 @@ Zorvex is a comprehensive platform designed to streamline service registration, 
 - ⚖️ Smart Load Balancing
 - 📊 Monitoring and Health Checks
 
+## Documentation
+Visit <a href="https://github.com/sushant102004/Zorvex/DOCS.md">this</a> page to read documentation.
+
 
 ## Authors
 
