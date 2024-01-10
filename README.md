@@ -5,7 +5,7 @@
 
 # Zorvex
 
-Zorvex is a comprehensive platform designed to streamline service registration, effortless discovery, and intelligent load balancing for microservices in complex architectures.
+Zorvex is a comprehensive platform designed to streamline service registration, effortless discovery, health checking, and intelligent load balancing for microservices in complex architectures.
 
 
 ## Features
