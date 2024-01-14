@@ -9,6 +9,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/sushant102004/zorvex/internal/agent"
+	"github.com/sushant102004/zorvex/internal/gateway"
 	"github.com/sushant102004/zorvex/internal/types"
 )
 
@@ -24,6 +25,8 @@ func NewHTTPHandler(svcAgent agent.Agent) *HTTPHandler {
 
 func (h *HTTPHandler) ServeHandlers() {
 	app := fiber.New()
+
+	app.Use(gateway.CheckAuthentication)
 
 	app.Get("/discover", h.handleDiscoverService)
 	app.Get("/all-services", h.handleGetAllServices)

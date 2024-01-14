@@ -14,4 +14,6 @@ var (
 	ErrServiceNotFound     = errors.New("failed to find service with given name")
 	ErrNoServiceAlive      = errors.New("failed to find any alive service")
 	ErrUnableToLoadBalance = errors.New("failed to load balance")
+
+	ErrUnauthorized = errors.New("failed to register service. Secret auth token is not provided in headers")
 )

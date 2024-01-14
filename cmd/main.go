@@ -4,6 +4,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/sushant102004/zorvex/internal/agent"
@@ -21,6 +22,11 @@ func init() {
 }
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		panic("Error loading .env file: " + err.Error())
+	}
+
 	// Create database connections
 	db, err := db.NewRethinkClient()
 	if err != nil {
